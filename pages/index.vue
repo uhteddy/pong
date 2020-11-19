@@ -3,25 +3,15 @@
     <div>
       <Logo />
       <h1 class="title">
-        pong
+        Pong
       </h1>
+      <p class="subtitle">
+        Simple pong game created by Teddy
+      </p>
       <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+        <nuxt-link to="/pong" class="button--green">
+          Play
+        </nuxt-link>
       </div>
     </div>
   </div>
