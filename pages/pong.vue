@@ -103,7 +103,7 @@ export default {
             this.ball.x += this.ball.velocityX;
             this.ball.y += this.ball.velocityY;
 
-            if (this.ball.y + this.ball.radius > this.canvas.height || this.ball.y + this.ball.radius < this.canvas.height) {
+            if (this.ball.y + this.ball.radius > this.canvas.height || this.ball.y + this.ball.radius < this.ball.radius*2) {
                 this.ball.velocityY = - this.ball.velocityY;
             };
 
