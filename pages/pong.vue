@@ -103,12 +103,14 @@ export default {
             this.ball.x += this.ball.velocityX;
             this.ball.y += this.ball.velocityY;
 
+            // Collisions on X Axis
             if (this.ball.y + this.ball.radius > this.canvas.height || this.ball.y + this.ball.radius < this.ball.radius*2) {
                 this.ball.velocityY = - this.ball.velocityY;
             };
 
             let player = (this.ball.x < this.canvas.width / 2) ? this.paddles.user : this.paddles.computer
             
+            // Collisions Player
             if (this.collison(this.ball, player)) {
                 let collidePoint = this.ball.y - (player.y + player.height / 2);
                 collidePoint = collidePoint / (player.height / 2);
@@ -120,12 +122,21 @@ export default {
                 this.ball.velocityY = direction * this.ball.speed * Math.sin(angleRad);
 
                 this.ball.speed += 0.05;
+            };
+
+            // Collisions on Y Axis
+            if (this.ball.x - this.ball.radius < 0) {
+                this.paddles.computer.score++;
+                this.resetBall();
+            } else if (this.ball.x + this.ball.radius > this.canvas.width) {
+                this.paddles.user.score++;
+                this.resetBall();     
             }
         },
 
         resetBall() {
-            this.ball.x = c.width/2;
-            this.ball.y = c.height/2; 
+            this.ball.x = this.canvas.width/2;
+            this.ball.y = this.canvas.height/2; 
             this.ball.speed = 0.5;
             this.ball.velocityX = -this.ball.velocityX 
         },
