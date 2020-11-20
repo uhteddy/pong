@@ -50,14 +50,14 @@ export default {}
   display: block;
   font-weight: 300;
   font-size: 100px;
-  color: #35495e;
+  color: whitesmoke;
   letter-spacing: 1px;
 }
 
 .subtitle {
   font-weight: 300;
   font-size: 42px;
-  color: #526488;
+  color:whitesmoke;
   word-spacing: 5px;
   padding-bottom: 15px;
 }
