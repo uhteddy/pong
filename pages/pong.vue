@@ -77,6 +77,8 @@ export default {
         this.ball.x = c.width/2;
         this.ball.y = c.height/2;
 
+        c.addEventListener('mousemove', this.movePaddle);
+
         setInterval(this.game, this.FPS/1000);
     },
 
@@ -170,6 +172,11 @@ export default {
         drawRect(x, y, w, h, color) {
             this.context.fillStyle = color;
             this.context.fillRect(x, y, w, h);
+        },
+        
+        movePaddle(evt) {
+            let rect = this.canvas.getBoundingClientRect();
+            this.paddles.user.y = evt.clientY - rect.top - this.paddles.user.height / 3 
         },
 
         drawCircle(x, y, r, color) {
