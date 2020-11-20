@@ -28,7 +28,8 @@ export default {
                     y: 0,
                     width: 10,
                     height: 100,
-                    score: 0
+                    score: 0,
+                    level: 0.005
                 }
             },
 
@@ -132,8 +133,11 @@ export default {
                 this.resetBall();
             } else if (this.ball.x + this.ball.radius > this.canvas.width) {
                 this.paddles.user.score++;
+                this.paddles.computer.level = this.paddles.computer.level + 0.001;
                 this.resetBall();     
             }
+
+            this.paddles.computer.y += (this.ball.y - (this.paddles.computer.y + this.paddles.computer.height/3)) * this.paddles.computer.level
         },
 
         resetBall() {
