@@ -1,14 +1,8 @@
 <template>
     <div class="container mx-auto px-4">
-        <div class="scores">
-            <h4><strong>Opponents: </strong>{{ paddles.computer.score }}</h4>
-            <h4><strong>You: </strong>{{ paddles.user.score }}</h4>
-            <div class="pong">
-
-            </div>
+        <div class="centerContain">
+            <canvas id="pongGame"></canvas>
         </div>
-
-        <canvas id="pongGame"></canvas>
     </div>
 </template>
 
@@ -17,7 +11,7 @@ export default {
     data() {
         return {
             rectX: 0,
-            renderSpeed: 1000,
+            FPS: 50,
             contextHeight: 0,
             contextWeight: 0,
             paddles: {
@@ -48,7 +42,10 @@ export default {
             ball: {
                 x: 0,
                 y: 0,
-                radius: 10
+                radius: 5,
+                speed: 0.5,
+                velocityX: 0.2,
+                velocityY: 0.5
             }
         }
     },
@@ -59,8 +56,11 @@ export default {
         this.context = ctx;
         this.canvas = c;
 
-        this.contextWidth = c.width;
-        this.contextHeight = c.height;
+        ctx.moveTo(20.5, 0);
+        ctx.lineTo(20.5, 50);
+        ctx.scale(1,1)
+        this.contextWidth = 600;
+        this.contextHeight = 400;
 
         const heightFactor = c.height / 3
         // User
@@ -77,27 +77,76 @@ export default {
         this.ball.x = c.width/2;
         this.ball.y = c.height/2;
 
-        setInterval(this.render, this.renderSpeed);
+        setInterval(this.game, this.FPS/1000);
     },
 
     methods: {
         // General Rendering
         render() {
-            this.drawRect(0, 0, 600, 400, "black"); // Creates Background
-            this.drawRect(this.rectX, 100, 100, 100, "red");
+            // Background
+            this.drawRect(0, 0, 600, 400, "black");
 
+            //Score
+            this.drawText(this.paddles.user.score, this.canvas.width/4, this.canvas.height/5, "white")
+            this.drawText(this.paddles.computer.score, 3 * this.canvas.width/4, this.canvas.height/5, "white")
             this.drawNet();
 
             // Paddles
-            this.drawRect(this.paddles.user.x, this.paddles.user.y, this.paddles.user.width, this.paddles.user.height, "white")
+            this.drawRect(this.paddles.user.x, this.paddles.user.y, this.paddles.user.width, this.paddles.user.height, "yellow")
             this.drawRect(this.paddles.computer.x, this.paddles.computer.y, this.paddles.computer.width, this.paddles.computer.height, "white");
 
             // Ball
             this.drawCircle(this.ball.x, this.ball.y, this.ball.radius, 'white')
-            this.rectX = this.rectX + 100;
+        },
 
-            //Score
-            this.drawText(this.paddles.user.score, this.canvas.width/4, this.canvas.height/5, "white")
+        update() {
+            this.ball.x += this.ball.velocityX;
+            this.ball.y += this.ball.velocityY;
+
+            if (this.ball.y + this.ball.radius > this.canvas.height || this.ball.y + this.ball.radius < this.canvas.height) {
+                this.ball.velocityY = - this.ball.velocityY;
+            };
+
+            let player = (this.ball.x < this.canvas.width / 2) ? this.paddles.user : this.paddles.computer
+            
+            if (this.collison(this.ball, player)) {
+                let collidePoint = this.ball.y - (player.y + player.height / 2);
+                collidePoint = collidePoint / (player.height / 2);
+                let angleRad = collidePoint * (Math.PI/4)
+
+                let direction = (this.ball.x < this.canvas.width / 2)? 1 : -1;
+
+                this.ball.velocityX = direction * this.ball.speed * Math.cos(angleRad);
+                this.ball.velocityY = direction * this.ball.speed * Math.sin(angleRad);
+
+                this.ball.speed += 0.05;
+            }
+        },
+
+        resetBall() {
+            this.ball.x = c.width/2;
+            this.ball.y = c.height/2; 
+            this.ball.speed = 0.5;
+            this.ball.velocityX = -this.ball.velocityX 
+        },
+
+        game() {
+            this.update(); // Updates data about collisions, players, balls, etc
+            this.render(); // Renders those changes.
+        },
+
+        collison(ball, player) {
+            player.top = player.y;
+            player.bottom = player.y + player.height;
+            player.left = player.x;
+            player.right = player.x + player.width;
+
+            ball.top = ball.y - ball.radius;
+            ball.bottom = ball.y + ball.radius;
+            ball.left = ball.x - ball.radius;
+            ball.right = ball.x + ball.radius;
+
+            return ball.right > player.left && ball.top < player.bottom && ball.left < player.right && ball.bottom > player.top; 
         },
 
         drawNet() {
@@ -122,7 +171,7 @@ export default {
 
         drawText(text, x, y, color) {
             this.context.fillStyle = color;
-            this.context.font = "75px fantasy"
+            this.context.font = "30px fantasy"
             this.context.fillText(text, x, y)
         },
     }
@@ -131,7 +180,20 @@ export default {
 
 <style>
     #pongGame {
-        width: 800px;
-        height: 550px
+        width: 1200px;
+        height: 650px
+    }
+
+    .centerContain {
+        margin: 0 auto;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    body {
+        background-color: #212121;
     }
 </style>
