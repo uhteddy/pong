@@ -99,7 +99,7 @@ export default {
             this.drawRect(this.paddles.computer.x, this.paddles.computer.y, this.paddles.computer.width, this.paddles.computer.height, "white");
 
             // Ball
-            this.drawCircle(this.ball.x, this.ball.y, this.ball.radius, 'white')
+            this.drawCircle(this.ball.x, this.ball.y, this.ball.radius, 'red')
         },
 
         update() {
