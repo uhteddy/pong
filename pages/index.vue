@@ -10,7 +10,10 @@
       </p>
       <div class="links">
         <nuxt-link to="/pong" class="button--green">
-          Play
+          Regular Pong
+        </nuxt-link>
+        <nuxt-link to="/covid" class="button--green">
+          COVID Pong
         </nuxt-link>
       </div>
     </div>
