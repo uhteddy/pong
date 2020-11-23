@@ -169,7 +169,7 @@ export default {
 
             ball.top = ball.y - ball.radius;
             ball.bottom = ball.y + ball.radius;
-            ball.left = ball.x - ball.radius / 3.3;
+            ball.left = ball.x - ball.radius;
             ball.right = ball.x + ball.radius;
 
             return ball.right > player.left && ball.top < player.bottom && ball.left < player.right && ball.bottom > player.top; 
