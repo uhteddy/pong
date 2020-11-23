@@ -4,6 +4,7 @@
             <img src="~/static/virus.png" style="visibility: hidden;" id="pongBall" alt="">
             <img src="~/static/maskplayer.png" style="visibility: hidden;" id="playerPaddle" alt="">
             <img src="~/static/computermask.png" style="visibility: hidden;" id="computerPaddle" alt="">
+            <br />
             <canvas id="pongGame"></canvas>
         </div>
     </div>
