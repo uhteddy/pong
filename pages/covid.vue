@@ -5,6 +5,8 @@
             <img src="~/static/maskplayer.png" style="visibility: hidden;" id="playerPaddle" alt="">
             <img src="~/static/computermask.png" style="visibility: hidden;" id="computerPaddle" alt="">
             <br />
+            <p>This version is a bit offset, use the regular pong for more accurate gameplay.</p>
+            <br />
             <canvas id="pongGame"></canvas>
         </div>
     </div>
